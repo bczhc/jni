@@ -3,7 +3,7 @@
 //
 
 #include "../../third_party/my-cpp-lib/string.hpp"
-#include "../jni_h/pers_zhc_tools_jni_JNI_Sqlite3_Statement.h"
+#include "../jni_h/pers_zhc_jni_JNI_Sqlite3_Statement.h"
 #include "../jni_help.h"
 #include "../../third_party/my-cpp-lib/sqlite3.hpp"
 #include <cassert>
@@ -28,7 +28,7 @@ void checkBindStatus(JNIEnv *&env, int status) {
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_bind__JII
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bind__JII
         (JNIEnv *env, jclass, jlong statId, jint row, jint a) {
     try {
         ((Stmt *) statId)->bind((int) row, (int32_t) a);
@@ -38,7 +38,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_b
 }
 
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_bind__JID
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bind__JID
         (JNIEnv *env, jclass, jlong statId, jint row, jdouble a) {
     try {
         ((Stmt *) statId)->bind((int) row, (double) a);
@@ -47,7 +47,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_b
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_bindText
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindText
         (JNIEnv *env, jclass, jlong statId, jint row, jstring js) {
     const char *s = env->GetStringUTFChars(js, nullptr);
     try {
@@ -58,7 +58,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_b
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_bindNull
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindNull
         (JNIEnv *env, jclass, jlong statId, jint row) {
     try {
         ((Stmt *) statId)->bindNull((int) row);
@@ -67,7 +67,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_b
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_reset
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_reset
         (JNIEnv *env, jclass, jlong statId) {
     try {
         ((Stmt *) statId)->reset();
@@ -76,7 +76,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_r
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_bindBlob
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindBlob
         (JNIEnv *env, jclass, jlong statId, jint row, jbyteArray jBytes, jint size) {
     jbyte *bytes = env->GetByteArrayElements(jBytes, nullptr);
     assert(sizeof(jbyte) == sizeof(char));
@@ -89,7 +89,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_b
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_step
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_step
         (JNIEnv *env, jclass, jlong statId) {
     try {
         ((Stmt *) statId)->step();
@@ -98,7 +98,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_s
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_finalize
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_finalize
         (JNIEnv *env, jclass, jlong statId) {
     try {
         ((Stmt *) statId)->release();
@@ -108,7 +108,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_f
     }
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_bind__JIJ
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bind__JIJ
         (JNIEnv *env, jclass, jlong statId, jint row, jlong a) {
     try {
         ((Stmt *) statId)->bind((int) row, (int64_t) a);
@@ -117,17 +117,17 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_b
     }
 }
 
-JNIEXPORT jlong JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_getCursor
+JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_getCursor
         (JNIEnv *env, jclass, jlong stmtId) {
     return (jlong) new Cursor(*((Stmt *) stmtId));
 }
 
-JNIEXPORT jint JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_stepRow
+JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_stepRow
         (JNIEnv *env, jclass, jlong stmtId) {
     return (jint) ((Stmt *) stmtId)->stepRow();
 }
 
-JNIEXPORT jint JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_00024Statement_getIndexByColumnName
+JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_getIndexByColumnName
         (JNIEnv *env, jclass, jlong stmtId, jstring nameJS) {
     auto name = env->GetStringUTFChars(nameJS, nullptr);
     try {

@@ -2,7 +2,7 @@
 #pragma ide diagnostic ignored "bugprone-reserved-identifier"
 
 #include "../../third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.h"
-#include "../jni_h/pers_zhc_tools_jni_JNI_Sqlite3.h"
+#include "../jni_h/pers_zhc_jni_JNI_Sqlite3.h"
 #include "../../third_party/my-cpp-lib/sqlite3.hpp"
 
 using namespace bczhc;
@@ -48,7 +48,7 @@ void throwException(JNIEnv *env, const char *msg) {
     env->DeleteLocalRef(exceptionClass);
 }
 
-JNIEXPORT jlong JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_open
+JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_open
         (JNIEnv *env, jclass, jstring path) {
     const char *file = env->GetStringUTFChars(path, (jboolean *) nullptr);
     try {
@@ -64,7 +64,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_open
     return (jlong) 0;
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_close
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_close
         (JNIEnv *env, jclass, jlong id) {
     auto *db = (Sqlite3 *) id;
     try {
@@ -75,7 +75,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_close
     delete db;
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_exec
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_exec
         (JNIEnv *env, jclass, jlong id, jstring cmd, jobject callbackInterface) {
 
     auto *db = (Sqlite3 *) id;
@@ -93,12 +93,12 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_exec
     env->ReleaseStringUTFChars(cmd, command);
 }
 
-JNIEXPORT jboolean JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_checkIfCorrupt
+JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_checkIfCorrupt
         (JNIEnv *env, jclass, jlong id) {
     return (jboolean) ((Sqlite3 *) id)->checkIfCorrupt();
 }
 
-JNIEXPORT jlong JNICALL Java_pers_zhc_tools_jni_JNI_00024Sqlite3_compileStatement
+JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
         (JNIEnv *env, jclass, jlong id, jstring statJS) {
     try {
         const char *statement = env->GetStringUTFChars(statJS, nullptr);

@@ -2,7 +2,7 @@
 // Created by bczhc on 4/3/21.
 //
 
-#include "../jni_h/pers_zhc_tools_jni_JNI_Struct.h"
+#include "../jni_h/pers_zhc_jni_JNI_Struct.h"
 #include "../../third_party/my-cpp-lib/utils.hpp"
 
 using namespace bczhc;
@@ -16,7 +16,7 @@ static int16_t t1 = 0x1234;
 static Endianness endianness = *(int8_t *) &t1 == 0x12 ? Endianness::BIG : Endianness::LITTLE;
 static Mode selfMode = endianness == Endianness::LITTLE ? Mode::MODE_LITTLE_ENDIAN : Mode::MODE_BIG_ENDIAN;
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packShort
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Struct_packShort
         (JNIEnv *env, jclass, jshort value, jbyteArray array, jint offset, jint mode) {
     auto b = (jbyte *) &value;
     if (mode != selfMode) {
@@ -28,7 +28,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packShort
 }
 
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packInt
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Struct_packInt
         (JNIEnv *env, jclass, jint value, jbyteArray array, jint offset, jint mode) {
     auto b = (jbyte *) &value;
     if (mode != selfMode) {
@@ -42,7 +42,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packInt
     env->SetByteArrayRegion(array, offset, 4, b);
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packLong
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Struct_packLong
         (JNIEnv *env, jclass, jlong value, jbyteArray array, jint offset, jint mode) {
     auto b = (jbyte *) &value;
     if (mode != selfMode) {
@@ -60,7 +60,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packLong
     env->SetByteArrayRegion(array, offset, 8, b);
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packFloat
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Struct_packFloat
         (JNIEnv *env, jclass, jfloat value, jbyteArray array, jint offset, jint mode) {
     auto b = (jbyte *) &value;
     if (mode != selfMode) {
@@ -74,7 +74,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packFloat
     env->SetByteArrayRegion(array, offset, 4, b);
 }
 
-JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packDouble
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Struct_packDouble
         (JNIEnv *env, jclass, jdouble value, jbyteArray array, jint offset, jint mode) {
     auto b = (jbyte *) &value;
     if (mode != selfMode) {
@@ -92,7 +92,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_packDouble
     env->SetByteArrayRegion(array, offset, 8, b);
 }
 
-JNIEXPORT jshort JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackShort
+JNIEXPORT jshort JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackShort
         (JNIEnv *env, jclass, jbyteArray array, jint offset, jint mode) {
     jbyte bytes[2];
     env->GetByteArrayRegion(array, offset, 2, bytes);
@@ -105,7 +105,7 @@ JNIEXPORT jshort JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackShort
     return *(jshort *) bytes;
 }
 
-JNIEXPORT jint JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackInt
+JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackInt
         (JNIEnv *env, jclass, jbyteArray array, jint offset, jint mode) {
     jbyte bytes[4];
     env->GetByteArrayRegion(array, offset, 4, bytes);
@@ -120,7 +120,7 @@ JNIEXPORT jint JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackInt
     return *(jint *) bytes;
 }
 
-JNIEXPORT jlong JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackLong
+JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackLong
         (JNIEnv *env, jclass, jbyteArray array, jint offset, jint mode) {
     jbyte bytes[8];
     env->GetByteArrayRegion(array, offset, 8, bytes);
@@ -139,7 +139,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackLong
     return *(jlong *) bytes;
 }
 
-JNIEXPORT jfloat JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackFloat
+JNIEXPORT jfloat JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackFloat
         (JNIEnv *env, jclass, jbyteArray array, jint offset, jint mode) {
     jbyte bytes[4];
     env->GetByteArrayRegion(array, offset, 4, bytes);
@@ -154,7 +154,7 @@ JNIEXPORT jfloat JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackFloat
     return *(jfloat *) bytes;
 }
 
-JNIEXPORT jdouble JNICALL Java_pers_zhc_tools_jni_JNI_00024Struct_unpackDouble
+JNIEXPORT jdouble JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackDouble
         (JNIEnv *env, jclass, jbyteArray array, jint offset, jint mode) {
     jbyte bytes[8];
     env->GetByteArrayRegion(array, offset, 8, bytes);
