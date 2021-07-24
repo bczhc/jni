@@ -1,14 +1,28 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10.0)
 project(jni)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
-add_library(sqlite3 SHARED third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
+add_library(my-sqlite3 SHARED third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
 
 add_library(
-        Main SHARED
+        myLib SHARED
+        third_party/my-cpp-lib/string.cpp
+        third_party/my-cpp-lib/sqlite3.cpp
+        third_party/my-cpp-lib/utf8.cpp
+        third_party/my-cpp-lib/utils.cpp
+        third_party/my-cpp-lib/exception.cpp
+)
+
+target_link_libraries(myLib my-sqlite3)
+
+add_library(
+        jni-lib SHARED
         src/sqlite3/sqlite3.cpp
         src/sqlite3/statement.cpp
         src/sqlite3/cursor.cpp
         src/struct/structMain.cpp
+        src/jni_help.cpp
 )
+
+target_link_libraries(jni-lib myLib)
