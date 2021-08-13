@@ -91,6 +91,14 @@ JNIEXPORT jfloat JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackFloat
 JNIEXPORT jdouble JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackDouble
   (JNIEnv *, jclass, jbyteArray, jint, jint);
 
+/*
+ * Class:     pers_zhc_jni_JNI_Struct
+ * Method:    getEndianness
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Struct_getEndianness
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

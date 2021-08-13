@@ -172,3 +172,15 @@ JNIEXPORT jdouble JNICALL Java_pers_zhc_jni_JNI_00024Struct_unpackDouble
     }
     return *(jdouble *) bytes;
 }
+
+JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Struct_getEndianness
+        (JNIEnv *, jclass) {
+    switch (endianness) {
+        case Endianness::BIG:
+            return 0;
+        case Endianness::LITTLE:
+            return 1;
+        default:
+            return -1;
+    }
+}

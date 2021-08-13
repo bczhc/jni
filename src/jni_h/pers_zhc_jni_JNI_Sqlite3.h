@@ -7,6 +7,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#undef pers_zhc_jni_JNI_Sqlite3_SQLITE_ROW
+#define pers_zhc_jni_JNI_Sqlite3_SQLITE_ROW 100L
 /*
  * Class:     pers_zhc_jni_JNI_Sqlite3
  * Method:    open
@@ -26,7 +28,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_close
 /*
  * Class:     pers_zhc_jni_JNI_Sqlite3
  * Method:    exec
- * Signature: (JLjava/lang/String;Lpers/zhc/tools/jni/JNI/Sqlite3/SqliteExecCallback;)V
+ * Signature: (JLjava/lang/String;Lpers/zhc/jni/JNI/Sqlite3/SqliteExecCallback;)V
  */
 JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_exec
   (JNIEnv *, jclass, jlong, jstring, jobject);
