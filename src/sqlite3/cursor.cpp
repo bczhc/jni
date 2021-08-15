@@ -33,10 +33,8 @@ JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_step
 JNIEXPORT jbyteArray JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_getBlob
         (JNIEnv *env, jclass, jlong cId, jint column) {
     auto b = ((Cursor *) cId)->getBlob((int) column);
-    // TODO get blob size
-    jbyteArray arr = env->NewByteArray(0);
-    assert(sizeof(b[0]) == sizeof(jbyte));
-    env->SetByteArrayRegion(arr, 0, 0, (const jbyte *) b);
+    jbyteArray arr = env->NewByteArray(b.size);
+    env->SetByteArrayRegion(arr, 0, b.size, (const jbyte *) b.data);
     return arr;
 }
 
