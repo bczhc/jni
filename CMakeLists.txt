@@ -3,10 +3,17 @@ project(jni)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(my-sqlite3 SHARED third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
+set(LIB_BUILD_TYPE SHARED)
+if (BUILD_STATIC)
+    if (BUILD_STATIC EQUAL 1)
+        set(LIB_BUILD_TYPE STATIC)
+    endif()
+endif ()
+
+add_library(my-sqlite3 ${LIB_BUILD_TYPE} third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
 
 add_library(
-        myLib SHARED
+        myLib ${LIB_BUILD_TYPE}
         third_party/my-cpp-lib/string.cpp
         third_party/my-cpp-lib/sqlite3.cpp
         third_party/my-cpp-lib/utf8.cpp
