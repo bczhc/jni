@@ -79,10 +79,9 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_reset
 JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindBlob
         (JNIEnv *env, jclass, jlong statId, jint row, jbyteArray jBytes, jint size) {
     jbyte *bytes = env->GetByteArrayElements(jBytes, nullptr);
-    assert(sizeof(jbyte) == sizeof(char));
     char *b = (char *) bytes;
     try {
-        ((Stmt *) statId)->bindBlob((int) row, b, (int) size);
+        ((Stmt *) statId)->bindBlob((int) row, b, (int) size, SQLITE_TRANSIENT);
         env->ReleaseByteArrayElements(jBytes, bytes, 0);
     } catch (const SqliteException &e) {
         throwException(env, "%s", e.what());
