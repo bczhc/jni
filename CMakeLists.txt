@@ -10,7 +10,7 @@ if (BUILD_STATIC)
     endif()
 endif ()
 
-add_library(my-sqlite3 ${LIB_BUILD_TYPE} third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
+add_library(sqlite3 ${LIB_BUILD_TYPE} third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
 
 add_library(
         myLib ${LIB_BUILD_TYPE}
@@ -21,7 +21,7 @@ add_library(
         third_party/my-cpp-lib/exception.cpp
 )
 
-target_link_libraries(myLib my-sqlite3)
+target_link_libraries(myLib sqlite3)
 
 add_library(
         jni-lib SHARED
