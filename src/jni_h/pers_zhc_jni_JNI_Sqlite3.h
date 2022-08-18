@@ -49,6 +49,22 @@ JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_checkIfCorrupt
 JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
   (JNIEnv *, jclass, jlong, jstring);
 
+/*
+ * Class:     pers_zhc_jni_JNI_Sqlite3
+ * Method:    key
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
+  (JNIEnv *, jclass, jlong, jstring);
+
+/*
+ * Class:     pers_zhc_jni_JNI_Sqlite3
+ * Method:    rekey
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_rekey
+  (JNIEnv *, jclass, jlong, jstring);
+
 #ifdef __cplusplus
 }
 #endif

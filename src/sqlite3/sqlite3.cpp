@@ -112,3 +112,29 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
     }
     return (jlong) nullptr;
 }
+
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
+        (JNIEnv *env, jclass, jlong addr, jstring key) {
+    auto keyStr = env->GetStringUTFChars(key, nullptr);
+
+    try {
+        ((Sqlite3 *) addr)->key(keyStr);
+        env->ReleaseStringUTFChars(key, keyStr);
+    } catch (const SqliteException &e) {
+        env->ReleaseStringUTFChars(key, keyStr);
+        throwException(env, e.what());
+    }
+}
+
+JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_rekey
+        (JNIEnv *env, jclass, jlong addr, jstring key) {
+    auto keyStr = env->GetStringUTFChars(key, nullptr);
+
+    try {
+        ((Sqlite3 *) addr)->key(keyStr);
+        env->ReleaseStringUTFChars(key, keyStr);
+    } catch (const SqliteException &e) {
+        env->ReleaseStringUTFChars(key, keyStr);
+        throwException(env, e.what());
+    }
+}
