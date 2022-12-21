@@ -52,7 +52,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
 /*
  * Class:     pers_zhc_jni_JNI_Sqlite3
  * Method:    key
- * Signature: (Ljava/lang/String;)V
+ * Signature: (JLjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
   (JNIEnv *, jclass, jlong, jstring);
@@ -60,7 +60,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
 /*
  * Class:     pers_zhc_jni_JNI_Sqlite3
  * Method:    rekey
- * Signature: (Ljava/lang/String;)V
+ * Signature: (JLjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_rekey
   (JNIEnv *, jclass, jlong, jstring);

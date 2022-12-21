@@ -90,9 +90,9 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_getCur
 /*
  * Class:     pers_zhc_jni_JNI_Sqlite3_Statement
  * Method:    stepRow
- * Signature: (J)I
+ * Signature: (J)Z
  */
-JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_stepRow
+JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_stepRow
   (JNIEnv *, jclass, jlong);
 
 /*

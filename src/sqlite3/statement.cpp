@@ -4,9 +4,8 @@
 
 #include "../../third_party/my-cpp-lib/string.hpp"
 #include "../jni_h/pers_zhc_jni_JNI_Sqlite3_Statement.h"
-#include "../jni_help.h"
 #include "../../third_party/my-cpp-lib/sqlite3.hpp"
-#include <cassert>
+#include "lib.h"
 
 using namespace bczhc;
 using Stmt = Sqlite3::Statement;
@@ -19,7 +18,7 @@ String getBindErrorMsg(int status) {
 
 void throwBindErrorException(JNIEnv *&env, int status) {
     String s = getBindErrorMsg(status);
-    throwException(env, "%s", s.getCString());
+    throwSqliteException(env, s.getCString());
 }
 
 void checkBindStatus(JNIEnv *&env, int status) {
@@ -33,7 +32,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bind__J
     try {
         ((Stmt *) statId)->bind((int) row, (int32_t) a);
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -43,7 +42,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bind__J
     try {
         ((Stmt *) statId)->bind((int) row, (double) a);
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -54,7 +53,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindTex
         ((Stmt *) statId)->bindText((int) row, s, SQLITE_TRANSIENT);
         env->ReleaseStringUTFChars(js, s);
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -63,7 +62,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindNul
     try {
         ((Stmt *) statId)->bindNull((int) row);
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -72,7 +71,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_reset
     try {
         ((Stmt *) statId)->reset();
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -84,7 +83,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bindBlo
         ((Stmt *) statId)->bindBlob((int) row, b, (int) size, SQLITE_TRANSIENT);
         env->ReleaseByteArrayElements(jBytes, bytes, 0);
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -93,7 +92,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_step
     try {
         ((Stmt *) statId)->step();
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -103,7 +102,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_finaliz
         ((Stmt *) statId)->release();
         delete (Stmt *) statId;
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -112,18 +111,28 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_bind__J
     try {
         ((Stmt *) statId)->bind((int) row, (int64_t) a);
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
 JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_getCursor
         (JNIEnv *env, jclass, jlong stmtId) {
-    return (jlong) new Cursor(*((Stmt *) stmtId));
+    try {
+        return (jlong) new Cursor(*((Stmt *) stmtId));
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return 0;
 }
 
-JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_stepRow
+JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_stepRow
         (JNIEnv *env, jclass, jlong stmtId) {
-    return (jint) ((Stmt *) stmtId)->stepRow();
+    try {
+        return ((Stmt *) stmtId)->stepRow();
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return 0;
 }
 
 JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_getIndexByColumnName
@@ -134,7 +143,7 @@ JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Statement_getInde
         env->ReleaseStringUTFChars(nameJS, name);
         return (jint) r;
     } catch (const SqliteException &e) {
-        throwException(env, "%s", e.what());
+        throwSqliteException(env, e.what());
     }
     return -1;
 }

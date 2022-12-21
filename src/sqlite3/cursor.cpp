@@ -4,8 +4,7 @@
 
 #include "../jni_h/pers_zhc_jni_JNI_Sqlite3_Cursor.h"
 #include "../../third_party/my-cpp-lib/sqlite3.hpp"
-#include "../jni_help.h"
-#include <cassert>
+#include "lib.h"
 
 using namespace bczhc;
 
@@ -16,7 +15,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_reset
     try {
         ((Cursor *) cId)->reset();
     } catch (const SqliteException &e) {
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -25,37 +24,62 @@ JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_step
     try {
         return (jboolean) ((Cursor *) cId)->step();
     } catch (const SqliteException &e) {
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
     return (jboolean) false;
 }
 
 JNIEXPORT jbyteArray JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_getBlob
         (JNIEnv *env, jclass, jlong cId, jint column) {
-    auto b = ((Cursor *) cId)->getBlob((int) column);
-    jbyteArray arr = env->NewByteArray(b.size);
-    env->SetByteArrayRegion(arr, 0, b.size, (const jbyte *) b.data);
-    return arr;
+    try {
+        auto b = ((Cursor *) cId)->getBlob((int) column);
+        jbyteArray arr = env->NewByteArray(b.size);
+        env->SetByteArrayRegion(arr, 0, b.size, (const jbyte *) b.data);
+        return arr;
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return nullptr;
 }
 
 JNIEXPORT jstring JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_getText
         (JNIEnv *env, jclass, jlong cId, jint c) {
-    auto s = ((Cursor *) cId)->getText((int) c);
-    return env->NewStringUTF(s);
+    try {
+        auto s = ((Cursor *) cId)->getText((int) c);
+        return env->NewStringUTF(s);
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return nullptr;
 }
 
 JNIEXPORT jdouble JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_getDouble
-        (JNIEnv *, jclass, jlong cId, jint c) {
-    return (jdouble) ((Cursor *) cId)->getDouble((int) c);
+        (JNIEnv *env, jclass, jlong cId, jint c) {
+    try {
+        return (jdouble) ((Cursor *) cId)->getDouble((int) c);
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return 0;
 }
 
 
 JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_getLong
-        (JNIEnv *, jclass, jlong cId, jint c) {
-    return (jlong) ((Cursor *) cId)->getLong((int) c);
+        (JNIEnv *env, jclass, jlong cId, jint c) {
+    try {
+        return (jlong) ((Cursor *) cId)->getLong((int) c);
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return 0;
 }
 
 JNIEXPORT jint JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_00024Cursor_getInt
-        (JNIEnv *, jclass, jlong cId, jint c) {
-    return (jint) ((Cursor *) cId)->getInt((int) c);
+        (JNIEnv *env, jclass, jlong cId, jint c) {
+    try {
+        return (jint) ((Cursor *) cId)->getInt((int) c);
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return 0;
 }

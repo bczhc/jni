@@ -4,6 +4,7 @@
 #include "../../third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.h"
 #include "../jni_h/pers_zhc_jni_JNI_Sqlite3.h"
 #include "../../third_party/my-cpp-lib/sqlite3.hpp"
+#include "lib.h"
 
 using namespace bczhc;
 using namespace std;
@@ -42,12 +43,6 @@ public:
     }
 };
 
-void throwException(JNIEnv *env, const char *msg) {
-    jclass exceptionClass = env->FindClass("java/lang/RuntimeException");
-    env->ThrowNew(exceptionClass, msg);
-    env->DeleteLocalRef(exceptionClass);
-}
-
 JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_open
         (JNIEnv *env, jclass, jstring path) {
     const char *file = env->GetStringUTFChars(path, (jboolean *) nullptr);
@@ -58,7 +53,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_open
         String msg = "Open or create database failed.";
         msg.append(" code: ")
                 .append(String::toString(e.returnCode));
-        throwException(env, msg.getCString());
+        throwSqliteException(env, msg.getCString());
     }
     env->ReleaseStringUTFChars(path, file);
     return (jlong) 0;
@@ -70,7 +65,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_close
     try {
         db->close();
     } catch (const SqliteException &e) {
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
     delete db;
 }
@@ -88,14 +83,19 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_exec
             db->exec(command, callback, nullptr);
         }
     } catch (const SqliteException &e) {
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
     env->ReleaseStringUTFChars(cmd, command);
 }
 
 JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_checkIfCorrupt
         (JNIEnv *env, jclass, jlong id) {
-    return (jboolean) ((Sqlite3 *) id)->checkIfCorrupt();
+    try {
+        return (jboolean) ((Sqlite3 *) id)->checkIfCorrupt();
+    } catch (const SqliteException &e) {
+        throwSqliteException(env, e.what());
+    }
+    return {};
 }
 
 JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
@@ -108,7 +108,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
         env->ReleaseStringUTFChars(statJS, statement);
         return (jlong) r;
     } catch (const SqliteException &e) {
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
     return (jlong) nullptr;
 }
@@ -122,7 +122,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
         env->ReleaseStringUTFChars(key, keyStr);
     } catch (const SqliteException &e) {
         env->ReleaseStringUTFChars(key, keyStr);
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
 }
 
@@ -135,6 +135,6 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_rekey
         env->ReleaseStringUTFChars(key, keyStr);
     } catch (const SqliteException &e) {
         env->ReleaseStringUTFChars(key, keyStr);
-        throwException(env, e.what());
+        throwSqliteException(env, e.what());
     }
 }

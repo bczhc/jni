@@ -37,6 +37,7 @@ add_library(
         src/sqlite3/sqlite3.cpp
         src/sqlite3/statement.cpp
         src/sqlite3/cursor.cpp
+        src/sqlite3/lib.cpp
         src/struct/structMain.cpp
         src/jni_help.cpp
 )
