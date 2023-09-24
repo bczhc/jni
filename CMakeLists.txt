@@ -14,11 +14,20 @@ add_compile_definitions(SQLITE_HAS_CODEC)
 add_library(sqlite3 ${LIB_BUILD_TYPE} third_party/my-cpp-lib/third_party/sqlite3-single-c/sqlite3.c)
 
 if (OPENSSL_LIBS_DIR AND OPENSSL_INCLUDE_DIR)
-    message(${OPENSSL_LIBS_DIR}--${OPENSSL_INCLUDE_DIR})
+    if (NOT OPENSSL_CRYPTO_LINK_SONAME)
+        set(OPENSSL_CRYPTO_LINK_SONAME crypto)
+    endif ()
+    if (NOT OPENSSL_SSL_LINK_SONAME)
+        set(OPENSSL_SSL_LINK_SONAME ssl)
+    endif ()
+
+    message("openssl link_soname: ${OPENSSL_CRYPTO_LINK_SONAME}--${OPENSSL_SSL_LINK_SONAME}")
+
+    message("openssl dir: ${OPENSSL_LIBS_DIR}--${OPENSSL_INCLUDE_DIR}")
     set(CMAKE_SKIP_BUILD_RPATH true)
     include_directories(${OPENSSL_INCLUDE_DIR})
     target_link_directories(sqlite3 PUBLIC ${OPENSSL_LIBS_DIR})
-    target_link_libraries(sqlite3 crypto log)
+    target_link_libraries(sqlite3 ${OPENSSL_CRYPTO_LINK_SONAME} log)
 endif ()
 
 add_library(
