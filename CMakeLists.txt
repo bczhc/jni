@@ -27,7 +27,17 @@ if (OPENSSL_LIBS_DIR AND OPENSSL_INCLUDE_DIR)
     set(CMAKE_SKIP_BUILD_RPATH true)
     include_directories(${OPENSSL_INCLUDE_DIR})
     target_link_directories(sqlite3 PUBLIC ${OPENSSL_LIBS_DIR})
-    target_link_libraries(sqlite3 ${OPENSSL_CRYPTO_LINK_SONAME} log)
+    if (__ANDROID__)
+        target_link_libraries(sqlite3 ${OPENSSL_CRYPTO_LINK_SONAME} log)
+    else ()
+        target_link_libraries(sqlite3 ${OPENSSL_CRYPTO_LINK_SONAME})
+    endif ()
+elseif (NOT __ANDROID__)
+    # OpenSSL
+    find_package(OpenSSL REQUIRED)
+    target_link_libraries(sqlite3 ${OPENSSL_LIBRARIES})
+else ()
+    message(FATAL_ERROR "Please define OPENSSL_LIBS_DIR and OPENSSL_INCLUDE_DIR for Android targets")
 endif ()
 
 add_library(
