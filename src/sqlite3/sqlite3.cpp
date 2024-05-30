@@ -53,7 +53,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_open
         String msg = "Open or create database failed.";
         msg.append(" code: ")
                 .append(String::toString(e.returnCode));
-        throwSqliteException(env, msg.getCString());
+        throwSqliteException(env, msg);
     }
     env->ReleaseStringUTFChars(path, file);
     return (jlong) 0;
@@ -65,7 +65,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_close
     try {
         db->close();
     } catch (const SqliteException &e) {
-        throwSqliteException(env, e.what());
+        throwSqliteException(env, e);
     }
     delete db;
 }
@@ -83,7 +83,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_exec
             db->exec(command, callback, nullptr);
         }
     } catch (const SqliteException &e) {
-        throwSqliteException(env, e.what());
+        throwSqliteException(env, e);
     }
     env->ReleaseStringUTFChars(cmd, command);
 }
@@ -93,7 +93,7 @@ JNIEXPORT jboolean JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_checkIfCorrupt
     try {
         return (jboolean) ((Sqlite3 *) id)->checkIfCorrupt();
     } catch (const SqliteException &e) {
-        throwSqliteException(env, e.what());
+        throwSqliteException(env, e);
     }
     return {};
 }
@@ -108,7 +108,7 @@ JNIEXPORT jlong JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_compileStatement
         env->ReleaseStringUTFChars(statJS, statement);
         return (jlong) r;
     } catch (const SqliteException &e) {
-        throwSqliteException(env, e.what());
+        throwSqliteException(env, e);
     }
     return (jlong) nullptr;
 }
@@ -125,7 +125,7 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
             throw SqliteException("Key cannot be empty");
         }
         env->ReleaseStringUTFChars(key, keyStr);
-        throwSqliteException(env, e.what());
+        throwSqliteException(env, e);
     }
 }
 
@@ -141,6 +141,6 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_rekey
         env->ReleaseStringUTFChars(key, keyStr);
     } catch (const SqliteException &e) {
         env->ReleaseStringUTFChars(key, keyStr);
-        throwSqliteException(env, e.what());
+        throwSqliteException(env, e);
     }
 }

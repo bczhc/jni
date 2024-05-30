@@ -4,8 +4,12 @@
 
 #include "lib.h"
 
-void throwSqliteException(JNIEnv *env, const char *msg) {
-    // TODO: throw real `pers.zhc.jni.sqlite.SQLiteException` in Java
-    //  rather than RuntimeException
-    bczhc::throwException(env, "%s", msg);
+constexpr auto EXCEPTION_CLASS = "pers/zhc/jni/sqlite/SQLiteException";
+
+void throwSqliteException(JNIEnv *env, const SqliteException &e) {
+    throwSqliteException(env, e.what());
+}
+
+void throwSqliteException(JNIEnv *env, const String &msg) {
+    bczhc::throwCustomException(env, EXCEPTION_CLASS, "%s", msg.getCString());
 }

@@ -11,9 +11,13 @@
 using namespace bczhc;
 
 namespace bczhc {
-    void log(JNIEnv *&env, const char *tag, const char *format, ...);
+    void jniLog(JNIEnv *&env, const char *tag, const char *format, ...);
 
     void throwException(JNIEnv *&env, const char *format, ...);
+
+    void throwCustomExceptionArgs(JNIEnv *&env, const char *clz, const char *format, va_list args);
+
+    void throwCustomException(JNIEnv *&env, const char *clz, const char *format, ...);
 }
 
 #endif //JNI_JNI_HELP_H

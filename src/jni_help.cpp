@@ -7,7 +7,7 @@
 
 using namespace bczhc;
 
-void bczhc::log(JNIEnv *&env, const char *tag, const char *format, ...) {
+void bczhc::jniLog(JNIEnv *&env, const char *tag, const char *format, ...) {
     va_list args{};
     va_start(args, format);
     char *msg = nullptr;
@@ -31,10 +31,21 @@ void bczhc::log(JNIEnv *&env, const char *tag, const char *format, ...) {
 void bczhc::throwException(JNIEnv *&env, const char *format, ...) {
     va_list args{};
     va_start(args, format);
-    jclass exceptionClass = env->FindClass("java/lang/RuntimeException");
+    throwCustomExceptionArgs(env, "java/lang/RuntimeException", format, args);
+    va_end(args);
+}
+
+void bczhc::throwCustomException(JNIEnv *&env, const char *clz, const char *format, ...) {
+    va_list args{};
+    va_start(args, format);
+    throwCustomExceptionArgs(env, clz, format, args);
+    va_end(args);
+}
+
+void bczhc::throwCustomExceptionArgs(JNIEnv *&env, const char *clz, const char *format, va_list args) {
+    jclass exceptionClass = env->FindClass(clz);
     char *msg = nullptr;
     vasprintf(&msg, format, args);
     env->ThrowNew(exceptionClass, msg);
     free(msg);
-    va_end(args);
 }
