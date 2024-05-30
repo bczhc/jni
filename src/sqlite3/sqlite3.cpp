@@ -121,6 +121,9 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_key
         ((Sqlite3 *) addr)->key(keyStr);
         env->ReleaseStringUTFChars(key, keyStr);
     } catch (const SqliteException &e) {
+        if (strlen(keyStr) == 0) {
+            throw SqliteException("Key cannot be empty");
+        }
         env->ReleaseStringUTFChars(key, keyStr);
         throwSqliteException(env, e.what());
     }
@@ -131,6 +134,9 @@ JNIEXPORT void JNICALL Java_pers_zhc_jni_JNI_00024Sqlite3_rekey
     auto keyStr = env->GetStringUTFChars(key, nullptr);
 
     try {
+        if (strlen(keyStr) == 0) {
+            throw SqliteException("Key cannot be empty");
+        }
         ((Sqlite3 *) addr)->rekey(keyStr);
         env->ReleaseStringUTFChars(key, keyStr);
     } catch (const SqliteException &e) {
